@@ -1,24 +1,34 @@
 <?php
 
-require_once('Car.php');
+namespace Tests\Vehicle;
+use \Vehicle\Civic as Civic;
 
-/****
- * Civic class extends the car class, which implements the VehicleInterface
- *
- * Has a specialized honk function to differentiate from others cars
- *
- **/
- class Civic extends Car
+/**
+* Unit test code to test Civic class
+**/
+
+class testCivic extends \PHPUnit_Framework_TestCase
 {
-	/****
-	 * Honk function represents honk
-	 *
-	 * @return string
-	 *
-	 ***/
-	public function honk()
+	/**
+	* Tests that a car is made and not null  
+	**/	
+	public function testCivicCreation()
 	{
-		return 'honk honk';
+		$car = new Civic(2, 1938, "blue", "automatic");
+		$this->assertNotEmpty($car);
+		return $car;
 	}
+	/**
+	* @depends testCivicCreation
+	**/
+	public function testhonk($car)
+	{
+		$this->assertNotEmpty($car->honk());
+		$this->assertEquals($car->honk(), 'honk honk');
+	}
+	
+	
+
+
 }
 ?>
