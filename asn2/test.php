@@ -31,7 +31,18 @@ $conn->connect();
 	echo "conn->connect() exception : " . $e->getMessage() . "\n";
 }
 
-$conn->insert("BLUE thing");
-
+try{
+$conn->insert("select thing");
+}catch(Exception $e)
+{
+	echo "" . $e->getMessage(). "\n";
+}
+try{
+ $res = $conn->insert("INSERT INTO User (firstname, lastname) VALUES ('John', 'Smith')");
+ echo "id resulting from insert: " $res . "\n";
+}catch(Exception $e)
+{
+	echo "" . $e->getMessage(). "\n";
+}
   echo "Script finished \n";
 ?>

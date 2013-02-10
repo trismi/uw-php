@@ -16,30 +16,62 @@ class Connection extends Exception
 		$this->db_name = $opArr['db_name'];
 	}
 
+	/**
+	*  Connects to database 
+	*/
 	public function connect()
 	{
 		$this->connOb = new mysqli($this->db_host, $this->db_user, $this->db_pw, $this->db_name);
 		if($this->connOb->connect_errno)
 			throw new Exception($this->connOb->connect_errno);
 	}
-
+	
+	/**
+	*  Closes database connection
+	**/
 	public function disconnect()
 	{
 		$this->connOb->close();
 	}
-
-	public function select()
+	
+	/**
+	*  Executes select statement. 
+	*  @string the select statement
+	*  @return returns an array of rows that represent the table
+	**/
+	public function select($sql)
 	{
+		if( !preg_match('/^SELECT/i', $sql) )
+		{
+			throw new Exception('function select(): argument('.$sql.') is not a select statement');
+		} 	
 
 	}
-
+	
+	/**
+	*  Executes update statement. Throws an exception of the query does not execute
+	*  @string update statement
+	*/
 	public function update()
 	{
+		if( !preg_match('/^UPDATE/i', $sql) )
+		{
+			throw new Exception('function update(): argument ('.$sql.') is not an update statement');
+		} 	
 
 	}
+	/**
+	*  Executes insert statement. 
+	*  @string insert statement
+	*  @return returns the ID of the last insert statement, or throws an error if the statement was unable to execute.
+	*/
 
 	public function delete()
 	{
+		if( !preg_match('/^DELETE/i', $sql) )
+		{
+			throw new Exception('function delete(): argument('.$sql.') is not a delete statement');
+		} 	
 
 	}
 
@@ -50,10 +82,18 @@ class Connection extends Exception
 	*/
 	public function insert($sql)
 	{
-		if( !preg_match($sql, '/^INSERT/') )
+		if( !preg_match('/^INSERT/i', $sql) )
 		{
-			throw new Exception('Not an insert statement');
-		} 	
+			throw new Exception('function insert(): argument ('.$sql.') is not an insert string');
+		} 
+		if($this->connOb->query($sql))
+		{
+			return $this->connOb->insert_id;
+		}
+		else
+		{
+			throw new Exception($this->connOb->error);
+		}	
 	}
 	 
 
