@@ -33,6 +33,22 @@ class Connection extends Exception
 	{
 		$this->connOb->close();
 	}
+
+	/** 
+	* Checks to see if the SQL has the correct format. If not, throws an Exception.
+	* @array includes all the checks to complete
+	* @string original sql statement to be used in Exception 
+	**/
+	private function paramCheck($check, $sql, $boo = false)
+	{
+		$trace = debug_backtrace();
+		//print_r($trace);
+		foreach($check as $key => $val)
+		{
+			if ( !preg_match( $key, $sql  ) && !$boo )
+				throw new Exception('function '.$trace[1]['function'].': argument('.$sql.') ' . $val);
+		}
+	}
 	
 	/**
 	*  Executes select statement. 
@@ -41,38 +57,66 @@ class Connection extends Exception
 	**/
 	public function select($sql)
 	{
-		if( !preg_match('/^SELECT/i', $sql) )
+		$this->paramCheck(array('/^SELECT/i' => 'is not a select statement'), $sql);
+		if($result = $this->connOb->query($sql))
 		{
-			throw new Exception('function select(): argument('.$sql.') is not a select statement');
-		} 	
-
+			$res_arr = array();
+			while($row = $result->fetch_assoc())
+			{
+				array_push($res_arr, $row);
+			}
+			return $res_arr;		
+		}
+		else
+		{
+			throw new Exception('function select() : ' . $this->connOb->error);
+		}
+		
 	}
-	
-	/**
-	*  Executes update statement. Throws an exception of the query does not execute
+
+
+	/*  Executes update statement. Throws an exception of the query does not execute
 	*  @string update statement
+	*  @bool if true, will ignore that there is no where statement and update ALL records
+	*  @return will return true if statement succeeds
 	*/
-	public function update()
+	public function update($sql, $b = false)
 	{
-		if( !preg_match('/^UPDATE/i', $sql) )
+		$check = array
+		(
+			'/^UPDATE/i' => 'is not an update statement', 
+			'/SET/i'=>'is not a proper update statement, no SET included', 
+			'/WHERE/i' => 'is not a proper update statement, no WHERE included'
+		);
+		$this->paramCheck($check, $sql, $b);
+		
+		if($this->connOb->query($sql))
 		{
-			throw new Exception('function update(): argument ('.$sql.') is not an update statement');
-		} 	
+			return true;
+		}
+		else
+		{
+			throw new Exception('function update() : ' . $this->connOb->error);
+		}	
 
 	}
 	/**
-	*  Executes insert statement. 
-	*  @string insert statement
-	*  @return returns the ID of the last insert statement, or throws an error if the statement was unable to execute.
+	*  Executes delete statement. Throws an erorr if statement is not executed
+	*  @string delete statement
+	*  @return true if statement succeeeds. 
 	*/
 
-	public function delete()
+	public function delete($sql)
 	{
-		if( !preg_match('/^DELETE/i', $sql) )
+		$this->paramCheck( array('/^DELETE/i'=> 'is not a delete statement'), $sql  ); 
+		if($this->connOb->query($sql))
 		{
-			throw new Exception('function delete(): argument('.$sql.') is not a delete statement');
-		} 	
-
+			return true;
+		}
+		else
+		{
+			throw new Exception('function delete() : ' . $this->connOb->error);
+		}	
 	}
 
 	/**
@@ -82,10 +126,7 @@ class Connection extends Exception
 	*/
 	public function insert($sql)
 	{
-		if( !preg_match('/^INSERT/i', $sql) )
-		{
-			throw new Exception('function insert(): argument ('.$sql.') is not an insert string');
-		} 
+		$this->paramCheck( array('/^INSERT/i'=> 'is not an insert statement'), $sql  ); 
 		if($this->connOb->query($sql))
 		{
 			return $this->connOb->insert_id;
