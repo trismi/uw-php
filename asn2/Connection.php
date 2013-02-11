@@ -53,7 +53,7 @@ class Connection extends Exception
 	/**
 	*  Executes select statement. 
 	*  @string the select statement
-	*  @return returns an array of rows that represent the table
+	*  @return returns an array of arrays, where each array represents a returned row
 	**/
 	public function select($sql)
 	{
