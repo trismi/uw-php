@@ -114,7 +114,7 @@ class ProjectView //trisha
  **/
 class ProjectController //trisha
 {
-	private class Parser
+	private class Parser //trisha & vy
 	{
 		parseTags
 		findInsertTags
