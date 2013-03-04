@@ -1,8 +1,9 @@
 <?php
 
+
 class ClientsView
 {
-  /***
+	/***
 	 *  This function renders the list of clients, along with buttons for actions for each client
 	 *	Each client's saved Projects will render as a list
 	 *  Each client will have an upload button.
@@ -29,6 +30,14 @@ class ClientsController
 	public function mergeClient()
 	{
 		//DAL:update
+		//Merges Projects from one client into another client in case of duplicate clients
+	}
+	/***
+	 * This function will upload data associated to a client's module.
+	 ***/
+	public function uploadClientData()
+	{
+		//DAL:insert
 		//Merges Projects from one client into another client in case of duplicate clients
 	}
 	/***
