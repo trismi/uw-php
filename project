@@ -1,7 +1,7 @@
 <?php
 
 
-class ClientsView
+class ClientsView //vy
 {
 	/***
 	 *  This function renders the list of clients, along with buttons for actions for each client
@@ -15,7 +15,7 @@ class ClientsView
 }
 
 //ClientsModel -- database 
-class ClientsController
+class ClientsController //vy
 {
 	/*** 
 	 * This function will create a new client in the database.
@@ -69,7 +69,7 @@ project_id	module_id
  * Has properties and no functions
  *
  **/ 
-class Module
+class Module //vy
 {
 	$client;
 	$category;// (shell, preheader, nav, header, hero, rescue, etc)
@@ -87,13 +87,13 @@ class Module
  * @var shell -- the shell
  * @var module_list -- associated modules for this Project 
  **/
-class ProjectModel
+class ProjectModel //trisha
 {
 	property:shell
 	property:module list
 }
 	
-class ProjectView
+class ProjectView //trisha
 {
 	/***
 	 * Will render the view for this Project. 
@@ -112,11 +112,15 @@ class ProjectView
 /***
  * This class controls the project model (db based)
  **/
-class ProjectController
+class ProjectController //trisha
 {
 	private class Parser
 	{
 		parseTags
+		findInsertTags
+		setModule
+		getModule
+		insertResource
 		resizeImages
 	}
 	
@@ -128,6 +132,7 @@ class ProjectController
 	 **/
 	public function generateProjectCode()
 	{
+		
 	}
 	
 	/***
@@ -160,7 +165,7 @@ ProjectModel
 /***
  * This is the database access layer. It will be used by the other classes.
  **/ 
-class DatabaseAccessLayer
+class DatabaseAccessLayer  //vy
 {
 /* steal all this crap from asn3*/
 /*DAL (database access layer)
