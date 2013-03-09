@@ -1,0 +1,30 @@
+{
+    "name": "FinalProj",
+    "description": "Final Project - Template Generator",
+    "authors": [
+        {
+            "name": "Trisha Smith",
+            "email": "trismi@gmail.com"
+        },
+	{
+	   "name" : "Vy Nguyen",
+	   "email" : "vnguye36@gmail.com"
+	}
+    ],
+    "require": {
+        "phpunit/phpunit": "3.7.*@dev"
+    },
+    "require-dev": {
+        "monolog/monolog": "1.2.1"
+    },
+    "autoload": {
+        "classmap": [
+            "src/",
+            "tests/"
+        ]
+    },
+    "config": {
+        "vendor-dir" : "vendor",
+        "vendor-bin" : "vendor/bin"
+    }
+}
