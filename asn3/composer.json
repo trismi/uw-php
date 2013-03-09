@@ -1,0 +1,31 @@
+{
+    "name": "Assgn1Part2",
+    "description": "Assignment1 Part2 unit testing part1",
+    "authors": [
+        {
+            "name": "Trisha Smith",
+            "email": "trismi@gmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "3.7.*@dev",
+        "guzzle/guzzle": "~3.1.1",
+	"twig/twig": "1.6.*",
+        "twig/extensions": "dev-master",
+        "slim/slim": "1.6.*",
+        "slim/extras": "1.0.*"    
+    },
+    "require-dev": {
+        "monolog/monolog": "1.2.1"
+    },
+    "autoload": {
+        "classmap": [
+            "Src/",
+            "Tests/"
+        ]
+    },
+    "config": {
+        "vendor-dir" : "vendor",
+        "vendor-bin" : "vendor/bin"
+    }
+}
