@@ -11,15 +11,10 @@
 	   "email" : "vnguye36@gmail.com"
 	}
     ],
-    "require": {
-        "phpunit/phpunit": "3.7.*@dev"
-    },
-    "require-dev": {
-        "monolog/monolog": "1.2.1"
-    },
     "autoload": {
         "classmap": [
             "src/",
+            "src2/",
             "tests/"
         ]
     },
