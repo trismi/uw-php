@@ -8,5 +8,8 @@
 
 	//$_SESSION['state'] = "nice";
 	echo "state is: " . $_SESSION['state'];
-
+	echo "<br />client is: " . $_SESSION['client_id'];
+	
 ?>
+<br />
+<a href='StateController.php?state=initial&client_id=n/a'>reset state</a>
