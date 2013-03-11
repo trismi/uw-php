@@ -43,6 +43,8 @@ class TemplateGeneratorView
 		{
 			$html .= " $client_name <a href='StateController.php?client_id=$client_id&state=upload'>upload modules</a> &nbsp; <a href='StateController.php?client_id=$client_id&state=generate'>generate template</a><br />";
 		}
+
+		$html .= "<br /><br /><a href='StateController.php?state=create'>Create a new client</a>";
 		$html .= "</body></html>";
 		return $html;	
 	}
@@ -51,7 +53,7 @@ class TemplateGeneratorView
 	
 		$html = "<html><head><title>Client List</title></head><body>";
 		$html .= "Upload Page <br />";
-		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose new client</a><br /><br />";
+		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;
 	}
@@ -60,7 +62,7 @@ class TemplateGeneratorView
 		
 		$html = "<html><head><title>Client List</title></head><body>";
 		$html .= "Create a client page<br />";
-		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose new client</a><br /><br />";
+		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "Create a new client page";
 		$html .= "</body></html>";
 		return $html;
@@ -70,7 +72,7 @@ class TemplateGeneratorView
 		
 		$html = "<html><head><title>Make a template</title></head><body>";
 		$html .= "Make a template page<br />";
-		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose new client</a><br /><br />";
+		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;
 	}
@@ -79,7 +81,7 @@ class TemplateGeneratorView
 		
 		$html = "<html><head><title>Client List</title></head><body>";
 		$html .= "Get your template here<br />";
-		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose new client</a><br /><br />";
+		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;
 	}

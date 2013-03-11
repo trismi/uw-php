@@ -12,7 +12,11 @@ class TemplateGeneratorController
 	 ****/
 	public function __construct()
 	{
-		
+		if( !isset($_SESSION['state']) )
+		{
+			$_SESSION['state'] = "initial";
+			$_SESSION['client_id'] = "n/a";
+		}	
 		$this->model = new \Template\TemplateGeneratorModel();
 		/*if($this->model)
 			echo "made the new model<br />";
