@@ -1,11 +1,11 @@
 <?php
-
-include_once('../bootstrap.php');
+namespace Template;
+require_once('../bootstrap.php');
 
 
 class TemplateGeneratorView
 {
-	public function __constructor()
+	public function __construct()
 	{
 		
 	}
@@ -16,26 +16,26 @@ class TemplateGeneratorView
 		switch($state)
 		{
 			case "initial":
-				return initialState($model);	
+				echo $this->initialState($model);	
 				break;
 			case "upload":
-				return uploadState($model);	
+				return $this->uploadState($model);	
 				break;
 			case "create":
-				return createState($model);	
+				return $this->createState($model);	
 				break;
 			case "generate":
-				return generateState($model);	
+				return $this->generateState($model);	
 				break;
 			case "generateCode":
-				return generateCodeState($model);	
+				return $this->generateCodeState($model);	
 				break;
 		}
 	}
 	
 	public function initialState($model)
 	{
-	
+		return "From this page you will choose a client";	
 	}
 	public function uploadState($model)
 	{

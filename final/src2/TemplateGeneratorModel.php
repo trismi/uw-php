@@ -1,11 +1,12 @@
 <?php
+namespace Template;
 include_once('../bootstrap.php');
 /***
  * Represents the application's data. 
  * @var dal -- the database access object layer
  * @var client_id -- the currently selected client 
  **/
-class TemplateGeneratorModel //trisha
+class TemplateGeneratorModel 
 {
 	public $dal, $client_id;
 	public $state;
@@ -50,6 +51,10 @@ class TemplateGeneratorModel //trisha
 		//	  upload needs client_id, module_list, shell_list
 		//	  create_client needs nothing
 		//        generate needs client_id, shell_list, module_list
+	}
+	public function get_state()
+	{
+		return $this->state;
 	}
 }
 
