@@ -5,32 +5,57 @@ include_once('../bootstrap.php');
 
 class TemplateGeneratorView
 {
-	public function __construct(){}
+	public function __constructor()
+	{
+		
+	}
+	
+	public function render_view( $model)
+	{
+		$state = $model->get_state();
+		switch($state)
+		{
+			case "initial":
+				return initialState($model);	
+				break;
+			case "upload":
+				return uploadState($model);	
+				break;
+			case "create":
+				return createState($model);	
+				break;
+			case "generate":
+				return generateState($model);	
+				break;
+			case "generateCode":
+				return generateCodeState($model);	
+				break;
+		}
+	}
+	
+	public function initialState($model)
+	{
+	
+	}
+	public function uploadState($model)
+	{
+		
+	}
+	public function createState($model)
+	{
+		
+	}
+	public function generateState($model)
+	{
+		$string = ""; //will be our html code representation
+		/* code here inserts model information into the view template for the generate state */
+		return $string;	
+	}
+	public function generateCodeState($model)
+	{
+		
+	}
 
-	/****
-	 * Returns the correct view based on a cue somewhere
-	 ****/
-	public function render(){}
 
-
-	/**** 
-	 * Creates the intial view of the project where you can see the Client list, and take actions for each client.
-	 ****/
-	private function initialView(){}	
-	 
-	/****
-	 * Creates the view where you create a new client.
-	 ****/
-	private function createClient(){}
-
-	/****
-	 * Creates the view where you can upload modules to a specific client.
-	 ****/
-	private function uploadView(){}
-	 
-	 /****
-	  * Creates the view where you create a template in the gui in order to generate the code that a person will be saving.
-	  ****/
-	private function generateView(){}
 }
 ?>

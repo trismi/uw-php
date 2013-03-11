@@ -12,7 +12,8 @@ class TemplateModule //vy
 	$code;
 	$preview_image;
 	$hasChildren;
-	public function __construct( $cli, $cat, $cod, $pi, $hsCh)
+	$children;
+	public function __construct( $cli, $cat, $cod, $pi, $hsCh, $chil)
 	{
 
 	}

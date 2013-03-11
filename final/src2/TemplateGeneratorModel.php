@@ -7,8 +7,11 @@ include_once('../bootstrap.php');
  **/
 class TemplateGeneratorModel //trisha
 {
-	$dal;
-	$client_id;
+	public $dal, $client_id;
+	public $state;
+	public $client_list;
+	public $module_list;
+	public $shell_list;
 
 	public function __constructor()
 	{
@@ -22,7 +25,7 @@ class TemplateGeneratorModel //trisha
 	public function create_client($data){}
 	public function get_clients(){}
 
-	public function merge_client($other_client){}
+	public  function merge_client($other_client){}
 	private function delete_client($client_to_delete){}
 
 	public function set_client_id($client_id)
@@ -39,6 +42,15 @@ class TemplateGeneratorModel //trisha
 	public function create_saved_project($data){}
 	public function get_saved_projects(){}
 
+	public function set_state($state)
+	{
+		$this->state = $state;
+		/* more logic to set up vars needed for this particular state */
+		//states: intial needs client_list filled out
+		//	  upload needs client_id, module_list, shell_list
+		//	  create_client needs nothing
+		//        generate needs client_id, shell_list, module_list
+	}
 }
 
 ?>
