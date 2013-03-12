@@ -14,7 +14,9 @@ return array(
     'ProjectController' => $baseDir . '/src/classes.php',
     'ProjectModel' => $baseDir . '/src/classes.php',
     'ProjectView' => $baseDir . '/src/ProjectView.php',
-    'TemplateGeneratorModel' => $baseDir . '/src2/TemplateGeneratorModel.php',
-    'TemplateGeneratorView' => $baseDir . '/src2/TemplateGeneratorView.php',
-    'TemplateModule' => $baseDir . '/src2/TemplateModule.php',
+    'TemplateModule' => $baseDir . '/src/TemplateModule.php',
+    'Template\\TemplateGeneratorController' => $baseDir . '/src2/TemplateGeneratorController.php',
+    'Template\\TemplateGeneratorModel' => $baseDir . '/src2/TemplateGeneratorModel.php',
+    'Template\\TemplateGeneratorView' => $baseDir . '/src2/TemplateGeneratorView.php',
+    'Template\\TemplateModule' => $baseDir . '/src2/TemplateModule.php',
 );
