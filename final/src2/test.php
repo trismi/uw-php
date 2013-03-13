@@ -29,7 +29,7 @@ $model->set_state("generate");
 		margin:10px 0;	
 	}
 </style>
-<script type="application/javascript" src="jquery-1.7.2.js"></script>
+<script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$( function()
 		{
@@ -69,11 +69,11 @@ $model->set_state("generate");
 $result =  $model->get_templates("shell");
 
 // echo categories
-echo "<select name=\"category\">"; 
+echo "Pick your shell: <select name=\"category\">"; 
 
 foreach($result as $catname)
 {        
-	echo "<option value='".$catname['category']."'>".$catname['category']."</option>"; 
+	echo "<option value='".$catname['module_id']."'>".$catname['name']."</option>"; 
 }
 echo "</select>";
 
@@ -92,22 +92,32 @@ echo "</select>";
 // get result array
 $result =  $model->get_templates("module");
 
-// echo category/name list
-	echo '<div style="float:left; width:300px;">';  
-foreach($result as $entry  => $value){
-	echo "<div> category: " . $value['category'] . " name: " . $value['name'] . "</div>";
-	//var_dump($value);
-	
-	/*foreach($value as $key){
-		   echo "<ol>";
-		   echo "<li class='".$key['module_id']."'>".$key['name']."</li>"; 
-		   echo "</ol>";
-		   var_dump($key);
-	}*/
-	
+
+
+
+$newArr = array("hero" => array(), "rescue" => array(), "modules" => array()  ); 
+foreach($result as $entry)
+{
+			$newArr[ $entry['category'] ][] = $entry;
+			
 }
 
+//var_dump($newArr);
+// echo category/name list
+foreach($newArr as $key => $entry){
+	echo '<div style="float:left; width:300px;">';  
+	echo "<div> category:  $key </div>";
+	
+		   echo "<ol>";
+	foreach($entry as $piece){
+		   echo "<li class='mod-".$piece['module_id']."'>".$piece['name']."</li>"; 
+
+	}
+	
+		   echo "</ol>";
 	echo  '</div>';
+}
+
 ?>
 <div id="nowhere" style="display:none;"></div>
 <br style="clear:both;" />
