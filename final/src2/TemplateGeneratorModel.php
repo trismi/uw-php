@@ -61,13 +61,38 @@ class TemplateGeneratorModel
 	{
 		$this->client_id = $client_id;
 	}
+	
+/***
+	* This will upload HTML into the module table. 
+	* The client_id will be $this->client_id
+	* @var data -- upload modules
+	***/
+	public function upload_template($code, $category, $name){
+	 
+	// set path of uploaded file
+	$path = "./".basename($code['name']); 
+	 
+	// move file to current directory
+	move_uploaded_file($code['tmp_name'], $path);
+	 
+	// get file contents
+	$file_contents = file_get_contents($path, NULL, NULL, 0, 60000);
+	 
+	// delete file
+	unlink($code['name']);
 
+	$this->dal->connect();
+	$this->dal->insert("INSERT INTO Module (client_id, code, category, name) VALUES ($this->client_id, '".addslashes($file_contents)."', '$category', '$name')");
+	$this->dal->disconnect();
+	 
+	       
+	}
     /***
 	 * This will upload HTML into the module table. 
 	 * The client_id will be $this->client_id
 	 * @var data -- upload modules
 	 ***/	
-	public function upload_template($code, $category,$name){
+	/*public function upload_template($code, $category,$name){
 		
 		// set path of uploaded file
 		$path = "./".basename($_FILES['code']['name']); 
@@ -86,7 +111,7 @@ class TemplateGeneratorModel
 		$this->dal->disconnect();
 		
        
-	}
+	}*/
 	
 	/***
 	 * This function gets modules based on 3 category options ("shell", "module", and "all")

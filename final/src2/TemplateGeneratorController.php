@@ -25,6 +25,7 @@ class TemplateGeneratorController
 
 		$this->client= $_SESSION["client_id"];
 		$this->model->set_state($_SESSION["state"]);
+		$this->model->set_client_id($_SESSION["client_id"]);
 	}
 
 	/****
@@ -35,6 +36,21 @@ class TemplateGeneratorController
 	{
 		$this->model->set_client_id( $_SESSION['client_id']  );
 		$this->view->render_view($this->model);
+	}
+	/***
+ 	 * Complete the action required
+	 ***/
+	public function actionExecute()
+	{
+		switch($_SESSION['state'])
+		{
+			case "create":
+				echo "making a client";
+				$this->model->create_client($_REQUEST['client_name']);				
+				break;
+			default:
+				echo "doing something else!";
+		}
 	}
 }
 

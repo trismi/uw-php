@@ -8,7 +8,7 @@ if( isset($_REQUEST['state']) )
 
 }
 
-if( isset($_REQUEST['client_id'])  )
+if( isset($_REQUEST['client_id']) )
 {
 	$_SESSION['client_id'] = $_REQUEST['client_id'];
 }
