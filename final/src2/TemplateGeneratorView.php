@@ -4,6 +4,7 @@ require_once('../bootstrap.php');
 
 class TemplateGeneratorView
 {
+	public $style = "<link href='styles.css' rel='stylesheet' type='text/css' />";
 	public function __construct()
 	{
 		
@@ -37,14 +38,17 @@ class TemplateGeneratorView
 	{
 		$client_list = $model->get_clients();
 		//$client_list = array( "0" => "nordstrom", "2" => "make-a-wish", 3=> "rei"  );
-		$html = "<html><head><title>Client List</title></head><body>";
+		$html = "<html><head><title>Client List</title>" . $this->style . "</head><body><h1>Client List</h1>";
 		//$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose new client</a><br /><br />";
 		foreach( $client_list as $record)//$i = 0; $i < count($client_list); $i++)
 		{
-			$html .= $record["client_name"] . " <a href='StateController.php?client_id=".$record["client_id"]."&state=upload'>upload modules</a> &nbsp; <a href='StateController.php?client_id=".$record["client_id"]."&state=generate'>generate template</a><br />";
+			$html .= 
+			"<div class='client_section'><div class='client_name'>" .$record["client_name"] . "</div> 
+			 <div class='upload'><a href='StateController.php?client_id=".$record["client_id"]."&state=upload'>upload modules</a></div>
+			<div class='generate'><a href='StateController.php?client_id=".$record["client_id"]."&state=generate'>generate template</a></div></div>";
 		}
 
-		$html .= "<br /><br /><a href='StateController.php?state=create'>Create a new client</a>";
+		$html .= "<div style='clear:both;'><a class='button create' href='StateController.php?state=create'>Create a new client</a></div>";
 		$html .= "</body></html>";
 		return $html;	
 	}
@@ -83,7 +87,7 @@ class TemplateGeneratorView
 	{
 		
 		$html = "<html><head><title>Client List</title></head><body>";
-		$html .= "Create a client page<br /><br />";
+		$html .= "<h1>Create a client</h1>";
 		$html .= "<form action='index.php' method='post'>";
 		$html .= "";
 		$html .= "Please enter a client name: <br /><input type='text' name='client_name' value=''/> ";
@@ -98,8 +102,8 @@ class TemplateGeneratorView
 	public function generateState($model)
 	{
 		
-		$html = "<html><head><title>Make a template</title></head><body>";
-		$html .= "Make a template page<br />";
+		$html = "<html><head><title>Create a template</title></head><body>";
+		$html .= "<h1>Create Your Template</h1>";
 		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;

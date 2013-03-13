@@ -45,8 +45,18 @@ class TemplateGeneratorController
 		switch($_SESSION['state'])
 		{
 			case "create":
-				echo "making a client";
-				$this->model->create_client($_REQUEST['client_name']);				
+				//echo "making a client";
+				$this->model->create_client($_REQUEST['client_name']);
+				header('Location: StateController.php?state=initial&client_id=n/a');				
+				break;
+			case "upload":
+				//echo "Dealing with uploads";
+				if (isset($_FILES['code']) && isset($_POST['category']) && !empty($_POST['category']) && isset($_POST['name']) && !empty($_POST['name']))
+				{
+					$this->model->set_client_id($_SESSION['client_id']);
+					$this->model->upload_template($_FILES['code'], $_POST['category'], $_POST['name']);
+				}
+				header('Location: StateController.php?state=initial&client_id=n/a');				
 				break;
 			default:
 				echo "doing something else!";

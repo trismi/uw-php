@@ -73,13 +73,13 @@ class TemplateGeneratorModel
 	$path = "./".basename($code['name']); 
 	 
 	// move file to current directory
-	move_uploaded_file($code['tmp_name'], $path);
+//	move_uploaded_file($code['tmp_name'], $path);
 	 
 	// get file contents
-	$file_contents = file_get_contents($path, NULL, NULL, 0, 60000);
+	$file_contents = file_get_contents($code['tmp_name'], NULL, NULL, 0, 60000);
 	 
 	// delete file
-	unlink($code['name']);
+	//unlink($code['name']);
 
 	$this->dal->connect();
 	$this->dal->insert("INSERT INTO Module (client_id, code, category, name) VALUES ($this->client_id, '".addslashes($file_contents)."', '$category', '$name')");
