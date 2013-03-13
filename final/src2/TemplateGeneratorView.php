@@ -139,8 +139,11 @@ class TemplateGeneratorView
 					$(\"#submit\").click(
 						function()
 						{
-							
-							alert( $(\"#list li\").text()  );
+							var hidden = '';
+							var arr$ = $('#list li');	
+							for(var i = 0 ; i < arr$.length ; i++) { hidden+= $(\"#list li\").attr('class'); }
+							$('form').append('<input type=\'hidden\' name=\'template_list\' value='+hidden+'/>');
+							alert(hidden);
 							$(\"form\").submit();	
 						}
 					);
@@ -217,7 +220,7 @@ class TemplateGeneratorView
 
 	public function generateCodeState($model)
 	{
-		
+		var_dump($_SESSION);		
 		$html = "<html><head><title>Client List</title></head><body>";
 		$html .= "Get your template here<br />";
 		$html .= "<textarea style='width:800px;height:1000px;'></textarea>";
