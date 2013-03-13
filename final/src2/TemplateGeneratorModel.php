@@ -40,6 +40,23 @@ class TemplateGeneratorModel
 		$this->dal->disconnect();
 		return $result;
 	}
+	
+	/***
+	 * This function checks to see if client has a shell
+	 * returns true if client has shells else returns false 
+	 ***/	
+	public function has_shell($client_id) {
+		$this->dal->connect();
+		$result = $this->dal->select("SELECT client_id FROM Module where category = 'shell'");	
+		$this->dal->disconnect();
+		
+		if($result){
+			return true;
+		}else{
+			return false;
+		}
+		return $result;
+	}
 
     /***
 	 * Todo
