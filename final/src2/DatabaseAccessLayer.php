@@ -1,12 +1,27 @@
 <?php
 namespace Template;
 require_once('../bootstrap.php');
+
+/**
+ * Represents the database access layer
+ */
 class DatabaseAccessLayer 
 {
-
+		
+	/**
+     * DB connection
+     * @db_host string
+	 * @db_user string
+	 * @db_pw string
+	 * @db_name string
+     */
 	private $connOb;
 	private $db_host, $db_user, $db_pw, $db_name;
 
+    /**
+	* Constructor
+	* @param $opArr array
+	*/
 	public function __construct($opArr)
 	{
 		if(sizeof($opArr) < 4)
