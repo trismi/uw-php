@@ -104,16 +104,124 @@ class TemplateGeneratorView
 		
 		$html = "<html><head><title>Create a template</title></head><body>";
 		$html .= "<h1>Create Your Template</h1>";
+
+
+		$model->set_state("generate");
+
+		$html = "<html>
+		<head>
+		<style>
+			ol li
+			{
+				cursor:pointer;
+				margin:10px 0;	
+			}
+		</style>
+		<script type='application/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+		<script type='text/javascript'>
+			$( function()
+				{
+					$('ol li').click(
+						function()
+						{
+							$(\"<li class='\"+$(this).attr(\"class\")+\"'>\" + $(this).text() + \"</li>\").appendTo(\"#list\");
+							$(\"#list li\").click(
+								function()
+								{
+									
+									$(this).appendTo(\"#nowhere\");	
+								}
+							);
+
+						}
+					);
+					
+					$(\"#submit\").click(
+						function()
+						{
+							
+							alert( $(\"#list li\").text()  );
+							$(\"form\").submit();	
+						}
+					);
+				}
+			);
+		</script>
+		</head>
+		<body>
+
+		<form action='StateController.php?state=generateCode&client_id=".$model->client_id."' method='post'>
+		";
+
+		// get result array
+		$result =  $model->get_templates("shell");
+
+		// echo categories
+		$html .= "Pick your shell: <select name='category'>"; 
+
+		foreach($result as $catname)
+		{        
+			$html .= "<option value='".$catname['module_id']."'>".$catname['name']."</option>"; 
+		}
+		$html.= "</select>";
+
+		$html.= 
+		"<div>
+			<h4>Click the below modules to add them to your email.</h4>
+			<div style='float:left; width:300px;'>
+			Email Modules
+			<ul id='list'></ul>
+		    
+		    </div>
+		";
+
+
+		// get result array
+		$result =  $model->get_templates("module");
+
+
+
+
+		$newArr = array("hero" => array(), "rescue" => array(), "modules" => array()  ); 
+		foreach($result as $entry)
+		{
+					$newArr[ $entry['category'] ][] = $entry;
+
+		}
+
+		//var_dump($newArr);
+		// echo category/name list
+		foreach($newArr as $key => $entry){
+			$html.= "<div style='float:left; width:300px;'>  
+			<div> category:  $key </div> <ol>";
+			foreach($entry as $piece){
+				   $html.= "<li class='mod-".$piece['module_id']."'>".$piece['name']."</li>"; 
+
+			}
+
+				   $html.= "</ol> </div>";
+		}
+
+		$html.= "<div id='nowhere' style='display:none;'></div>
+		<br style='clear:both;' />
+
+		<input type='hidden' value='' name='order' />
+		<button id='submit'>Generate form</button>
+		</form>";
+
+
 		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;
 	}
+
 	public function generateCodeState($model)
 	{
 		
 		$html = "<html><head><title>Client List</title></head><body>";
 		$html .= "Get your template here<br />";
-		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
+		$html .= "<textarea style='width:800px;height:1000px;'></textarea>";
+		$html .= "<br /><a  href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;
 	}

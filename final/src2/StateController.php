@@ -5,7 +5,11 @@ require_once('../bootstrap.php');
 if( isset($_REQUEST['state']) )
 {
 	$_SESSION['state'] = $_REQUEST['state'];
-
+	if( $_SESSION['state'] == "generateCode"   )
+	{
+		$_SESSION['shell_id'] = $_REQUEST['category'];
+		$_SESSION['template_list'] = $_REQUEST['template_list'];
+	}
 }
 
 if( isset($_REQUEST['client_id']) )
