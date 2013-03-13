@@ -1,15 +1,29 @@
 <?php
 require_once('../bootstrap.php');
 
-
+/**
+ * Represents the view class
+ */
 class TemplateGeneratorView
 {
+	/**
+ 	* @var style stylesheet
+ 	*/
 	public $style = "<link href='styles.css' rel='stylesheet' type='text/css' />";
+	
+	
+	/**
+ 	* constructor
+ 	*/
 	public function __construct()
 	{
 		
 	}
 	
+	/**
+ 	* This function renders the view
+	* depending on the state
+ 	*/
 	public function render_view( $model)
 	{
 		$state = $model->state;
@@ -34,6 +48,11 @@ class TemplateGeneratorView
 ?>
 <?php	}
 	
+	
+	/**
+ 	* This function renders the initial state
+	* returns html
+ 	*/
 	public function initialState($model)
 	{
 		$client_list = $model->get_clients();
@@ -52,6 +71,11 @@ class TemplateGeneratorView
 		$html .= "</body></html>";
 		return $html;	
 	}
+	
+	/**
+ 	* This function renders the upload a template state
+	* returns html
+ 	*/
 	public function uploadState($model)
 	{
 	
@@ -83,6 +107,12 @@ class TemplateGeneratorView
 		$html .= "</body></html>";
 		return $html;
 	}
+	
+	
+	/**
+ 	* This function renders the create a client state
+	* returns html
+ 	*/
 	public function createState($model)
 	{
 		
@@ -99,6 +129,11 @@ class TemplateGeneratorView
 		$html .= "</body></html>";
 		return $html;
 	}
+	
+	/**
+ 	* This function renders the generate template state
+	* returns html
+ 	*/
 	public function generateState($model)
 	{
 		
@@ -215,6 +250,11 @@ class TemplateGeneratorView
 		return $html;
 	}
 
+
+    /**
+ 	* This function renders the generate code state
+	* returns html
+ 	*/
 	public function generateCodeState($model)
 	{
 		

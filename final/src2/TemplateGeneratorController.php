@@ -1,14 +1,16 @@
 <?php
 require_once('../bootstrap.php');
 
+/**
+ * Represents the controller class
+ */
 class TemplateGeneratorController
 {
 	
 	/**
-     * 
-     * @model 
-	 * @view 
-	 * @client 
+     * @var model 
+	 * @var view 
+	 * @var client 
      */
 	public $model;
 	public $view;
@@ -74,6 +76,5 @@ class TemplateGeneratorController
 		}
 	}
 }
-
 
 ?>
