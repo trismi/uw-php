@@ -2,6 +2,11 @@
 namespace Template;
 require_once('../bootstrap.php');
 
+/**
+ * Sets sessions for:
+ * state
+ * client_id
+ */
 if( isset($_REQUEST['state']) )
 {
 	$_SESSION['state'] = $_REQUEST['state'];

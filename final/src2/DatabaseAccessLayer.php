@@ -91,7 +91,7 @@ class DatabaseAccessLayer
 	}
 
 
-	/*  Executes update statement. Throws an exception of the query does not execute
+	/* Executes update statement. Throws an exception of the query does not execute
 	*  @string update statement
 	*  @bool if true, will ignore that there is no where statement and update ALL records
 	*  @return will return true if statement succeeds
