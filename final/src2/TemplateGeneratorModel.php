@@ -15,7 +15,7 @@ class TemplateGeneratorModel
 
 	public function __construct()
 	{
-		$db_arr = array('host' => 'localhost', 'user'=>'nordstrom', 'password'=>'testpw', 'db_name' => 'php_nord');
+		global $db_arr;
 		$this->dal = new DatabaseAccessLayer($db_arr);
 	}
 
