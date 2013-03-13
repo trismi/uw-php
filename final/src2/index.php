@@ -1,6 +1,6 @@
 <?php
-	include_once('../bootstrap.php');
-	$controller = new \Template\TemplateGeneratorController();
+	require_once('../bootstrap.php');
+	$controller = new TemplateGeneratorController();
 	$v = $controller->actionView();
 	echo "<br />";//$controller->render();
 	//var_dump();	

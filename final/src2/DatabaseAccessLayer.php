@@ -1,5 +1,6 @@
 <?php
-include_once('../bootstrap.php');
+namespace Template;
+require_once('../bootstrap.php');
 class DatabaseAccessLayer 
 {
 

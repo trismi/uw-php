@@ -1,5 +1,4 @@
 <?php
-namespace Template;
 require_once('../bootstrap.php');
 
 
@@ -12,7 +11,7 @@ class TemplateGeneratorView
 	
 	public function render_view( $model)
 	{
-		$state = $model->get_state();
+		$state = $model->state;
 		switch($state)
 		{
 			case "initial":

@@ -1,12 +1,11 @@
 <?php
-namespace Template;
-include_once('../bootstrap.php');
+require_once('../bootstrap.php');
 /***
  * Represents the application's data. 
  * @var dal -- the database access object layer
  * @var client_id -- the currently selected client 
  **/
-class TemplateGeneratorModel 
+class TemplateGeneratorModel
 {
 	public $dal, $client_id;
 	public $state;
@@ -14,48 +13,174 @@ class TemplateGeneratorModel
 	public $module_list;
 	public $shell_list;
 
-	public function __constructor()
+	public function __construct()
 	{
-		$this->dal = new DatabaseAccessLayer();
+		$db_arr = array('host' => 'localhost', 'user'=>'nordstrom', 'password'=>'testpw', 'db_name' => 'php_nord');
+		$this->dal = new DatabaseAccessLayer($db_arr);
 	}
 
 	/***
-	 * Function description.
+	 * This function creates clients
 	 * @var data -- the new client name to be made
 	 ***/	
-	public function create_client($data){}
-	public function get_clients(){}
+	public function create_client($data){
+		 $this->dal->connect();
+		 $this->dal->insert("INSERT INTO Client (client_name) VALUES ('$data')");	
+		 $this->dal->disconnect();
+	}
+	
+	/***
+	 * This function returns a list of clients
+	 * @var data -- get client list
+	 * return variable is an array client_id -> client_name
+	 ***/	
+	public function get_clients(){
+		$this->dal->connect();
+		$result = $this->dal->select("SELECT client_name, client_id FROM Client");	
+		$this->dal->disconnect();
+		return $result;
+	}
 
-	public  function merge_client($other_client){}
+    /***
+	 * Todo
+	 * @var data -- if duplicate client, merge module and delete other client
+	 ***/	
+	public function merge_client($other_client) {}
+	
+	/***
+	 * Todo
+	 * @var data -- delete duplicate client
+	 ***/	
 	private function delete_client($client_to_delete){}
 
+    /***
+	 * This function sets client id
+	 * @var data -- set client
+	 ***/	
 	public function set_client_id($client_id)
 	{
 		$this->client_id = $client_id;
 	}
 
-	public function upload_template(){}
-	public function get_templates(){}
+    /***
+	 * This will upload HTML into the module table. 
+	 * The client_id will be $this->client_id
+	 * @var data -- upload modules
+	 ***/	
+	public function upload_template($code, $category,$name){
+		
+		// set path of uploaded file
+		$path = "./".basename($_FILES['code']['name']); 
+		
+		// move file to current directory
+		move_uploaded_file($_FILES['code']['tmp_name'], $path);
+		
+		// get file contents
+		$code = file_get_contents($path, NULL, NULL, 0, 60000);
+		
+		// delete file
+		unlink($_FILES['code']['name']);
 
-	public function create_category($data){}
-	public function get_categories(){}
+		$this->dal->connect();
+		$this->dal->insert("INSERT INTO Module (client_id, code, category, name) VALUES ($this->client_id, '".$code."', '$category', '$name')");
+		$this->dal->disconnect();
+		
+       
+	}
+	
+	/***
+	 * This function gets modules based on 3 category options ("shell", "module", and "all")
+	 * @var data -- get modules
+	 ***/	
+	public function get_templates($option){		
+		
+		    // option = "shell": returns all modules with shell in category
+			if ($option == 'shell') {
+				
+				$this->dal->connect();
+				$result = $this->dal->select("SELECT * from Module where category ='shell' and client_id = '".$this->client_id."'");
+				$this->dal->disconnect();			
+				
+			}
+			
+			// option = "module": returns everything not a shell in category	
+			else if ($option == 'module') {
+				
+				$this->dal->connect();
+				
+				$result = $this->dal->select("SELECT * from Module where category != 'shell' and client_id = '".$this->client_id."'");
+				$this->dal->disconnect();	
+			
+			}
+			
+			// option = "all": returns everything in category	
+			else if ($option == 'all') {
+				$this->dal->connect();
+				$result = $this->dal->select("SELECT * from Module where client_id = '".$this->client_id."'");
+				$this->dal->disconnect();	
+			
+			}
+		    return $result;
+		
+	}
 
-	public function create_saved_project($data){}
+    /***
+	 * Todo
+	 * @var data -- create categories
+	 ***/	
+	public function create_category(){
+	}
+	
+	/***
+	 * Todo
+	 * @var data -- get categories
+	 ***/	
+	public function get_categories(){
+
+	}
+
+	/***
+	 * Todo
+	 * @var data -- create saved projects
+	 ***/	
+	public function create_saved_project(){}
+	
+	/***
+	 * Todo
+	 * @var data -- get saved projects
+	 ***/	
 	public function get_saved_projects(){}
-
+	
+	
+     /***
+	 * This function sets the states ("initial", "upload", "generate")
+	 * @var data -- set states
+	 ***/
 	public function set_state($state)
 	{
 		$this->state = $state;
-		/* more logic to set up vars needed for this particular state */
-		//states: intial needs client_list filled out
-		//	  upload needs client_id, module_list, shell_list
-		//	  create_client needs nothing
-		//        generate needs client_id, shell_list, module_list
-	}
-	public function get_state()
-	{
-		return $this->state;
+		
+		switch($state)
+		{
+			case "initial":
+				// initial state: returns client_list
+				$this->client_list = $this->get_clients();
+				break;
+			case "upload":
+			    // upload state: returns client_list, module_list, shell_list
+				$this->module_list = $this->get_templates("module");
+				$this->shell_list = $this->get_templates("shell");
+				$this->client_list = $this->get_clients();
+				break;
+			case "generate":
+			     // generate state: returns module_list, shell_list, client_id
+				$this->module_list = $this->get_templates("module");
+				$this->shell_list = $this->get_templates("shell");
+				break;
+		}
+
 	}
 }
 
 ?>
+
