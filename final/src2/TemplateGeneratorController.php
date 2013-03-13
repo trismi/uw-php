@@ -3,10 +3,21 @@ require_once('../bootstrap.php');
 
 class TemplateGeneratorController
 {
-	public $model; public $view; public $client;			
+	
+	/**
+     * 
+     * @model 
+	 * @view 
+	 * @client 
+     */
+	public $model;
+	public $view;
+	public $client;			
 
 	/****
-	 * Initializes the controller. Makes sure a state is set for the application and for the model
+	 * Initializes the controller.
+	 * Makes sure a state is set for the
+	 * application and for the model
 	 *
 	 ****/
 	public function __construct()
