@@ -56,29 +56,29 @@ class TemplateGeneratorView
 	{
 	
 		$html = "<html><head><title>Client List</title></head><body>";
-		$html .= "Upload Page <br />";
+		$html .= "<h1>Upload Page </h1>";
 		$html .= " 
- <form action='index.php' method='post' enctype='multipart/form-data'>
- Add a file:
- <input type='file' name='code' id='code' />
- <br /><br />
- Choose a category:
-  <select name='category' id='category'>
-    <option value='shell'>shell</option>
-    <option value='preheader'>preheader</option>
-    <option value='nav'>nav</option>
-    <option value='hero'>hero</option>
-    <option value='modules'>modules</option>
-    <option value='rescue'>rescue</option>
-    <option value='footer'>footer</option>
- </select> 
- <br /><br />
- Add a module name:
- <input type='text' name='name' id='name' />
- <br /><br />
- <input type='hidden' name='action' value='yes' />
- <input type='submit' name='submit' value='submit' />
- </form>";
+		 <form action='index.php' method='post' enctype='multipart/form-data'>
+		 Add a file:
+		 <input type='file' name='code' id='code' />
+		 <br /><br />
+		 Choose a category:
+		  <select name='category' id='category'>
+		    <option value='shell'>shell</option>
+		    <option value='preheader'>preheader</option>
+		    <option value='nav'>nav</option>
+		    <option value='hero'>hero</option>
+		    <option value='modules'>modules</option>
+		    <option value='rescue'>rescue</option>
+		    <option value='footer'>footer</option>
+		 </select> 
+		 <br /><br />
+		 Add a module name:
+		 <input type='text' name='name' id='name' />
+		 <br /><br />
+		 <input type='hidden' name='action' value='yes' />
+		 <input type='submit' name='submit' value='submit' />
+		 </form>";
 		$html .= "<a href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;
