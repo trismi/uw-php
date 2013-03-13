@@ -141,8 +141,8 @@ class TemplateGeneratorView
 						{
 							var hidden = '';
 							var arr$ = $('#list li');	
-							for(var i = 0 ; i < arr$.length ; i++) { hidden+= $(\"#list li\").attr('class'); }
-							$('form').append('<input type=\'hidden\' name=\'template_list\' value='+hidden+'/>');
+							for(var i = 0 ; i < arr$.length ; i++) { var elt = arr$[i] ; hidden+= $(elt).attr('class'); }
+							$('form').append('<input type=\'hidden\' name=\'template_list\' value=\"'+hidden+'\" />');
 							alert(hidden);
 							$(\"form\").submit();	
 						}
@@ -220,10 +220,37 @@ class TemplateGeneratorView
 
 	public function generateCodeState($model)
 	{
-		var_dump($_SESSION);		
+		//var_dump($_SESSION);
+		$template_order = explode('mod-', $_SESSION['template_list']);	
+		//print_r($template_order);
+		$shell = $model->get_module_by_id($_SESSION['shell_id']);
+		//var_dump($shell);
+		$shell_data = $shell[0];
+		$shell_content = explode("<!-- %INSERT_HTML% -->", $shell_data['code']);
+		//var_dump($shell_content);$order = array();
+		array_shift($template_order);
+		foreach($template_order as $module)
+		{
+			if(!empty($order[""+$module + ""]))
+				$order["".$module.""] = $order["" . $module . ""] + 1;
+			else
+				$order["".$module.""] = 1;
+		}
+		//print_r($order);
+		//var_dump($model->get_module_by_id($template_order[0]));
 		$html = "<html><head><title>Client List</title></head><body>";
-		$html .= "Get your template here<br />";
-		$html .= "<textarea style='width:800px;height:1000px;'></textarea>";
+		$html .= "<br />Get your template here<br />";
+		$html .= "<textarea style='width:800px;height:1000px;'>";
+		$html .= $shell_content[0];		
+		foreach ($template_order as $module)
+		{
+			$module_row = $model->get_module_by_id($module); 
+			$data = $module_row[0];
+			$html .= $data['code'] . PHP_EOL; 
+			
+		}
+		$html .= $shell_content[1];
+		$html .= "</textarea>";
 		$html .= "<br /><a  href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
 		$html .= "</body></html>";
 		return $html;

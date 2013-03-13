@@ -165,7 +165,19 @@ class TemplateGeneratorModel
 		    return $result;
 		
 	}
+	public function get_module_by_id($mod_id){		
+		
+	    // option = "shell": returns all modules with shell in category
+			
+			$this->dal->connect();
+			$result = $this->dal->select("SELECT * from Module where module_id = ".$mod_id);
+			$this->dal->disconnect();			
+			
+	    return $result;
+	
+	}
 
+		
     /***
 	 * Todo
 	 * @var data -- create categories
