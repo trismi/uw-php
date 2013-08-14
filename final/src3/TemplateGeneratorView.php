@@ -1,5 +1,5 @@
 <?php
-require_once('../bootstrap.php');
+require_once('../testinclude.php');
 
 
 class TemplateGeneratorView
@@ -30,9 +30,12 @@ class TemplateGeneratorView
 			case "generateCode":
 				echo $this->generateCodeState($model);	
 				break;
+			case "update":
+				echo $this->updateState($model);
+				break;
 		}
-?>
-<?php	}
+
+	}
 	
 	public function initialState($model)
 	{
@@ -54,11 +57,17 @@ class TemplateGeneratorView
 	}
 	public function uploadState($model)
 	{
-	
-		$html = "<html><head><title>Client List</title>".$this->style."<script src='http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js' type='text/javascript'></script></head><body>";
+		$temp = $model->get_templates('all');
+		$html = "<html><head><title>Client List</title>".$this->style."</head><body>";
 		$html .= "<h1>Upload Page </h1>";
+		$html .= "Current Modules for Client: <br />" ;
+		foreach($temp as $module)
+		{
+			$html .= "<div class='module-edit'>" .$module["name"] . "  <a href='StateController.php?client_id=".$model->client_id."&state=update&module=".$module['module_id']."' style='float:right;width:100px;text-align:right;'>Edit</a>  </div>";
+		}
 		$html .= " 
-		 <form action='index.php' method='post' enctype='multipart/form-data'>
+		<div class='clear'></div> 
+		<form action='index.php' method='post' enctype='multipart/form-data'>
 		 <div class='upload-m'>
 				<div class='upload-section'>Add a file:
 				 <input type='file' name='code' id='code' />
@@ -90,6 +99,51 @@ class TemplateGeneratorView
 		$html .= "</body></html>";
 		return $html;
 	}
+
+	public function updateState($model)
+	{
+		$temp = $model->get_module_by_id($_SESSION['module']);
+		$html = "<html><head><title>Client List</title>".$this->style."</head><body>";
+		$html .= "<h1>Update Page </h1>";
+		$html .= "Edit a module: <br />" ;
+
+
+		print_r($temp);
+		$html .= " 
+		<div class='clear'></div> 
+		<form action='index.php' method='post' enctype='multipart/form-data'>
+		 <div class='upload-m'>
+				<div class='upload-section'>Add a file:
+				 <input type='file' name='code' id='code' />
+			 </div>
+			<div class='upload-section'>
+			 Choose a category:
+			  <select name='category' id='category'>
+			    <option value='shell' " . ( ($temp[0]['category']=="shell" )  ? "selected=selected" : "")  . " >shell</option>
+			    <option value='preheader' " . ( ($temp[0]['category']=="preheader" )  ? "selected=selected" : "")  . ">preheader</option>
+			    <option value='nav'" . ( ($temp[0]['category']=="nav" )  ? "selected=selected" : "")  . ">nav</option>
+			    <option value='hero'" . ( ($temp[0]['category']=="hero" )  ? "selected=selected" : "")  . ">hero</option>
+			    <option value='modules'" . ( ($temp[0]['category']=="modules" )  ? "selected=selected" : "")  . ">modules</option>
+			    <option value='rescue'" . ( ($temp[0]['category']=="rescue" )  ? "selected=selected" : "")  . ">rescue</option>
+			    <option value='footer'" . ( ($temp[0]['category']=="footer" )  ? "selected=selected" : "")  . ">footer</option>
+			 </select> 
+			 </div>
+			<div class='upload-section'>
+			 Module name:
+			 <input type='text' name='name' id='name' value='".$temp[0]['name']."'/>
+			 </div>
+			<div class='upload-section'>
+			 <input type='hidden' name='action' value='yes' />
+			 <input type='submit' name='submit' value='submit' />
+			</div>
+			<div class='clear'></div>
+		</div>
+		 </form>";
+		$html .= "<br /><br /><a style='clear:both;display:block;' href='StateController.php?state=initial&client_id=n/a'>choose different client</a><br /><br />";
+		$html .= "</body></html>";
+		return $html;
+	}
+
 	public function createState($model)
 	{
 		
@@ -130,11 +184,10 @@ class TemplateGeneratorView
 		</style>
 		".$this->style."
 		<script type='application/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
-		<script src='http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js' type='text/javascript'></script>
 		<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js'></script>
 
+		<script src='http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js'></script>
 		<script type='text/javascript'>
-
 			$( function()
 				{
 					$('ol li').click(
@@ -161,22 +214,21 @@ class TemplateGeneratorView
 							$('form').validate();	
 						}
 					);
-					
+			
 				}
-				
 			);
 		</script>
 		</head>
 		<body>
 		<h1>Create Your Template</h1>
-		<form action='StateController.php?state=generateCode&client_id=".$model->client_id."' method='post' id='form1'>
+		<form action='StateController.php?state=generateCode&client_id=".$model->client_id."' method='post'>
 		";
 
 		// get result array
 		$result =  $model->get_templates("shell");
 
 		// echo categories
-		$html .= "Pick your shell: <select name='category' id='selection' class='required'><option value=''></option>"; 
+		$html .= "Pick your shell: <select class='required' name='category'><option value=''></option>"; 
 
 		foreach($result as $catname)
 		{        
@@ -186,8 +238,7 @@ class TemplateGeneratorView
 
 		$html.= 
 		"<div>
-			<h4>Click modules from the right to add them to your email.</h4>
-			<h4>Once modules are in the email module list, you can click and drag to rearrange, or double click to remove modules.</h4><br />
+			<h4>Click the below modules to add them to your email.</h4>
 			<div style='float:left; width:250px;min-height:300px;background-color:#aad;border-radius:5px;padding-left:1em;'>
 			Email Modules
 			<ul id='list'></ul>
@@ -226,7 +277,7 @@ class TemplateGeneratorView
 		<br style='clear:both;' />
 
 		<input type='hidden' value='' name='order' />
-		<button id='submit'>Generate email</button>
+		<button id='submit'>Generate form</button>
 		</form>";
 
 
@@ -256,8 +307,7 @@ class TemplateGeneratorView
 		//print_r($order);
 		//var_dump($model->get_module_by_id($template_order[0]));
 		$html = "<html><head><title>Client List</title></head><body>";
-		$html .= "<br />Get your template here<br />";
-		$html .= "<a href='StateController.php?state=generate&client_id=".$model->client_id."'>Make another template</a><br />";
+		$html .= "<br />Get your template here<br /><a href='StateController.php?client_id=".$model->client_id."&state=generate'>generate template</a><br />";
 		$html .= "<textarea style='width:800px;height:1000px;'>";
 		$html .= $shell_content[0];		
 		foreach ($template_order as $module)

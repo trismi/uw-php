@@ -5,7 +5,13 @@
 	// And reigsters autoloading with spl_autoload_register (http://php.net/manual/en/function.spl-autoload-register.php )
 	//
 	// @see http://getcomposer.org/doc/01-basic-usage.md for detail usage
-	require_once ('vendor/autoload.php');
+	//require_once ('vendor/autoload.php');
+	include ('src3/TemplateGeneratorController.php');
+	
+	include ('src3/TemplateGeneratorModel.php');
+	include ('src3/DatabaseAccessLayer.php');
+	//include ('src3/StateController.php');
+	include ('src3/TemplateGeneratorView.php');
 	session_start();
         error_reporting( E_ALL | E_STRICT);
         ini_set('display_errors', 'On');
