@@ -14,8 +14,7 @@
     "autoload": {
         "classmap": [
             "src/",
-            "src2/",
-            "tests/"
+            "src2/"
         ]
     },
     "config": {
